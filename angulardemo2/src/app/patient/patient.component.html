@@ -1,0 +1,79 @@
+Welcome {{ username }}!
+
+
+<div *ngIf="totalRecords > 0"> Total Patients: {{ totalRecords }}
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openModal()">
+        Add New
+    </button>
+    <table border='1'>
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let patient of patients">
+                <td>{{ patient.patientId }}</td>
+                <td>{{ patient.firstName }}</td>
+                <td>{{ patient.lastName }}</td>
+                <td>{{ patient.birthDate | date: 'mediumDate' }}</td>
+                <td>{{ patient.address }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="editPatient(patient.patientId)">Edit</button> |
+                    <button type="button" class="btn btn-danger" (click)="deletePatient(patient.patientId)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- The Modal -->
+<!--<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">-->
+  <span role="spinbutton" aria-placeholder="mm" aria-valuemin="1" aria-valuemax="12" aria-label="Month" pseudo="-webkit-datetime-edit-month-field">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Add New Patient</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+
+            <!-- Modal Body -->                          
+            <div class="modal-body">
+                <div class="pagination">
+                    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 0">Previous</button>
+                    <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage + 1 === totalPages">Next</button>
+                  </div>
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" id="firstName" [(ngModel)]="patientObj.firstName" class="form-control" placeholder="First name">
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" id="lastName" [(ngModel)]="patientObj.lastName" class="form-control" placeholder="Last name">
+                </div>
+                <div class="mb-3">
+                    <label for="birthDate" class="form-label">Birth Date</label>
+                    <input type="date" id="birthDate" [(ngModel)]="patientObj.birthDate" class="form-control" placeholder="Birth date">
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea id="address" rows="3" [(ngModel)]="patientObj.address" class="form-control" placeholder="Address"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="saveModal()">Save Patient</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+            </div>
+        </div>      
+    </div>
+</span>  
